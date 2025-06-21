@@ -6,7 +6,7 @@
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 17:01:50 by migarrid          #+#    #+#             */
-/*   Updated: 2025/06/19 17:21:26 by migarrid         ###   ########.fr       */
+/*   Updated: 2025/06/21 20:54:23 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@
 # include <errno.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include "fdf_structs.h"
-# include "fdf_macros.h"
 
 /* ************************************************************************** */
 /*                          Parsing & Validation                              */

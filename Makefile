@@ -6,7 +6,7 @@
 #    By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/19 17:55:34 by migarrid          #+#    #+#              #
-#    Updated: 2025/06/21 19:27:33 by migarrid         ###   ########.fr        #
+#    Updated: 2025/06/21 20:58:36 by migarrid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ NAME				= pipex
 #                            Compiler and Flags                                #
 # **************************************************************************** #
 CC					= cc
-CFLAGS				= -Wall -Wextra -Werror -g #-fsanitize=address,undefined -O0
+CFLAGS				= -g #-Wall -Wextra -Werror #-fsanitize=address,undefined -O0
 
 # **************************************************************************** #
 #                               Shell Comands                                  #
@@ -40,7 +40,7 @@ OBJ_DIR				= obj
 OBJ_BONUS_DIR		= $(OBJ_DIR)/bonus
 SRC_DIR				= src
 SRC_BONUS_DIR 		= $(SRC_DIR)/bonus
-LIBFT_DIR			= $(LIB_DIR)/libft_plus
+LIBFT_DIR			= $(LIB_DIR)
 LIBX				= $(LIB_DIR)/XXXXX
 DEPS				= $(HEADER) $(MAKEFILE) $(LIBFT_H) $(LIBFT_MAKEFILE)
 
@@ -48,9 +48,7 @@ DEPS				= $(HEADER) $(MAKEFILE) $(LIBFT_H) $(LIBFT_MAKEFILE)
 #                      File Paths and Dependencies                             #
 # **************************************************************************** #
 MAKEFILE				= Makefile
-HEADER					= $(INC_DIR)/.h \
-						  $(INC_DIR)/macros.h \
-						  $(INC_DIR)/structs.h
+HEADER					= $(INC_DIR)/pipex.h
 LIBFT_A					= $(LIBFT_DIR)/libft_plus.a
 LIBFT_H					= $(LIBFT_DIR)/libft_plus.h
 LIBFT_MAKEFILE			= $(LIBFT_DIR)/Makefile
@@ -71,11 +69,10 @@ RESET 				= \033[0m
 BOLD 				= \033[1m
 CLEAR 				= \r\033[K
 
-
 # **************************************************************************** #
 #                               Source File                                    #
 # **************************************************************************** #
-SRCS =
+SRCS =				main.c \
 
 # **************************************************************************** #
 #                              Progress Bars                                   #
@@ -99,13 +96,6 @@ BONUS_PCT = $(shell expr 100 \* $(BONUS_COUNT) / $(BONUS_COUNT_TOT))
 # **************************************************************************** #
 OBJS		= $(SRCS:%.c=$(OBJ_DIR)/%.o)
 OBJS_BONUS 	= $(SRC_BONUS:%.c=$(OBJ_BONUS_DIR)/%.o)
-
-# Create the directory if it doesn't exist
-${OBJS}: | ${OBJ_DIR}
-${OBJS_BONUS}: | $(OBJ_DIR)
-$(OBJ_DIR):
-	@$(MKDIR) $(OBJ_DIR)
-	@$(MKDIR) $(OBJ_BONUS_DIR)
 
 # Rule to compile archive .c to ,o with progress bars
 ${OBJ_DIR}/%.o: ${SRC_DIR}/%.c $(DEPS)
