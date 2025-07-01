@@ -6,11 +6,27 @@
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 19:11:10 by migarrid          #+#    #+#             */
-/*   Updated: 2025/05/19 17:53:29 by migarrid         ###   ########.fr       */
+/*   Updated: 2025/07/01 03:56:56 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft_plus.h"
+
+static void	cleanup_all_stash(char **stash)
+{
+	int	i;
+
+	i = 0;
+	while (i < 1024)
+	{
+		if (stash[i])
+		{
+			free(stash[i]);
+			stash[i] = NULL;
+		}
+		i++;
+	}
+}
 
 static char	*read_into_stash(int fd, char *stash)
 {
@@ -85,6 +101,11 @@ char	*get_next_line(int fd)
 	static char	*stash[1024];
 	char		*line;
 
+	if (fd == -1)
+	{
+		cleanup_all_stash(stash);
+		return (NULL);
+	}
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	stash[fd] = read_into_stash(fd, stash[fd]);

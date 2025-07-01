@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_bonus.c                                  :+:      :+:    :+:   */
+/*   ft_printf_fd_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 00:32:45 by migarrid          #+#    #+#             */
-/*   Updated: 2025/03/18 15:27:29 by migarrid         ###   ########.fr       */
+/*   Updated: 2025/06/28 16:10:48 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,25 @@ static int	ft_atoi_advance(const char **str)
 	return (num);
 }
 
-static int	ft_specifiers(char specifier, va_list args, t_format *fmt)
+static int	ft_specifiers_fd(char specify, va_list args, t_format *fmt, int fd)
 {
-	if (specifier == 'c')
-		return (ft_print_char(va_arg(args, int), fmt));
-	else if (specifier == 's')
-		return (ft_print_str(va_arg(args, char *), fmt));
-	else if (specifier == 'p')
-		return (ft_print_ptr(va_arg(args, void *), fmt));
-	else if (specifier == 'd' || specifier == 'i')
-		return (ft_print_num(va_arg(args, int), fmt));
-	else if (specifier == 'u')
-		return (ft_print_unsigned(va_arg(args, unsigned int), fmt));
-	else if (specifier == 'x' || specifier == 'X')
-		return (ft_print_hex
-			(va_arg(args, unsigned int), fmt, specifier == 'X'));
-	else if (specifier == '%')
-		return (write(1, "%", 1));
+	if (specify == 'c')
+		return (ft_print_char_fd(va_arg(args, int), fmt, fd));
+	else if (specify == 's')
+		return (ft_print_str_fd(va_arg(args, char *), fmt, fd));
+	else if (specify == 'p')
+		return (ft_print_ptr_fd(va_arg(args, void *), fmt, fd));
+	else if (specify == 'd' || specify == 'i')
+		return (ft_print_num_fd(va_arg(args, int), fmt, fd));
+	else if (specify == 'u')
+		return (ft_print_unsigned_fd(va_arg(args, unsigned int), fmt, fd));
+	else if (specify == 'x' || specify == 'X')
+		return (ft_print_hex_fd
+			(va_arg(args, unsigned int), fmt, specify == 'X', fd));
+	else if (specify == 'f')
+		return (ft_print_float_fd(va_arg(args, double), fmt, fd));
+	else if (specify == '%')
+		return (write(fd, "%", 1));
 	return (0);
 }
 
@@ -72,18 +74,18 @@ static void	process_flags(const char **str, t_format *fmt)
 	(*str)++;
 }
 
-static int	ft_flags(char const **str, va_list args)
+static int	ft_flags_fd(char const **str, va_list args, int fd)
 {
 	t_format	fmt;
 
 	fmt = (t_format){0, -1, 0, 0, 0, 0, 0, 0};
-	while (**str && !ft_strchr("cspdiuxX%", **str))
+	while (**str && !ft_strchr("cspdiuxXf%", **str))
 		process_flags(str, &fmt);
 	fmt.specifier = **str;
-	return (ft_specifiers(fmt.specifier, args, &fmt));
+	return (ft_specifiers_fd(fmt.specifier, args, &fmt, fd));
 }
 
-int	ft_printf(char const *str, ...)
+int	ft_printf_fd(int fd, char const *str, ...)
 {
 	va_list	args;
 	int		count;
@@ -96,7 +98,7 @@ int	ft_printf(char const *str, ...)
 		if (*str == '%')
 		{
 			str++;
-			result = ft_flags(&str, args);
+			result = ft_flags_fd(&str, args, fd);
 			if (result == -1)
 			{
 				va_end(args);
@@ -105,7 +107,7 @@ int	ft_printf(char const *str, ...)
 			count = count + result;
 		}
 		else
-			count = count + write(1, str, 1);
+			count = count + write(fd, str, 1);
 		str++;
 	}
 	va_end(args);

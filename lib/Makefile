@@ -6,7 +6,7 @@
 #    By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/28 19:51:37 by migarrid          #+#    #+#              #
-#    Updated: 2025/06/05 21:32:30 by migarrid         ###   ########.fr        #
+#    Updated: 2025/06/28 17:36:37 by migarrid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,25 +84,26 @@ SRCS =	libft/ft_isalpha.c \
 		libft/ft_lstclear_bonus.c \
 		libft/ft_lstiter_bonus.c \
 		libft/ft_lstmap_bonus.c \
-		ft_printf/ft_printf_bonus.c \
-		ft_printf/ft_apply_flags_bonus.c \
-		ft_printf/ft_apply_hash_bonus.c \
-		ft_printf/ft_apply_left_align_bonus.c \
-		ft_printf/ft_apply_plus_bonus.c \
-		ft_printf/ft_apply_precision_bonus.c \
-		ft_printf/ft_apply_space_bonus.c \
-		ft_printf/ft_apply_zero_pad_bonus.c \
-		ft_printf/ft_apply_min_width_bonus.c \
-		ft_printf/ft_print_char_bonus.c \
-		ft_printf/ft_print_str_bonus.c \
-		ft_printf/ft_print_ptr_bonus.c \
-		ft_printf/ft_print_num_bonus.c \
-		ft_printf/ft_print_unsigned_bonus.c \
-		ft_printf/ft_print_hex_bonus.c \
-		ft_printf/ft_itoa_base_bonus.c \
-		ft_printf/ft_utoa_bonus.c \
+		ft_printf_fd/ft_printf_fd_bonus.c \
+		ft_printf_fd/ft_apply_flags_bonus.c \
+		ft_printf_fd/ft_apply_hash_bonus.c \
+		ft_printf_fd/ft_apply_left_align_bonus.c \
+		ft_printf_fd/ft_apply_plus_bonus.c \
+		ft_printf_fd/ft_apply_precision_bonus.c \
+		ft_printf_fd/ft_apply_space_bonus.c \
+		ft_printf_fd/ft_apply_zero_pad_bonus.c \
+		ft_printf_fd/ft_apply_min_width_bonus.c \
+		ft_printf_fd/ft_print_char_fd_bonus.c \
+		ft_printf_fd/ft_print_str_fd_bonus.c \
+		ft_printf_fd/ft_print_ptr_fd_bonus.c \
+		ft_printf_fd/ft_print_num_fd_bonus.c \
+		ft_printf_fd/ft_print_unsigned_fd_bonus.c \
+		ft_printf_fd/ft_print_hex_fd_bonus.c \
+		ft_printf_fd/ft_print_float_fd_bonus.c \
+		ft_printf_fd/ft_print_float_fd_utils_bonus.c \
+		ft_printf_fd/ft_itoa_base_bonus.c \
+		ft_printf_fd/ft_utoa_bonus.c \
 		get_next_line/get_next_line_bonus.c \
-
 
 # Objetos obligatorios
 OBJS = $(SRCS:.c=.o)

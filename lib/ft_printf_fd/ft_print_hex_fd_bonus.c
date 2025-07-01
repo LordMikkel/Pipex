@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_hex_bonus.c                               :+:      :+:    :+:   */
+/*   ft_print_hex_fd_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 23:31:00 by migarrid          #+#    #+#             */
-/*   Updated: 2025/03/18 15:27:09 by migarrid         ###   ########.fr       */
+/*   Updated: 2025/06/28 16:43:42 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft_plus.h"
 
-int	ft_print_hex(unsigned int n, t_format *fmt, int uppercase)
+int	ft_print_hex_fd(unsigned int n, t_format *fmt, int uppercase, int fd)
 {
 	int		len;
 	char	*base;
@@ -28,7 +28,7 @@ int	ft_print_hex(unsigned int n, t_format *fmt, int uppercase)
 	ft_apply_flags(&str, fmt);
 	if (!str)
 		return (-1);
-	len = write(1, str, ft_strlen(str));
+	len = write(fd, str, ft_strlen(str));
 	free(str);
 	return (len);
 }

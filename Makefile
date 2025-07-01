@@ -6,7 +6,7 @@
 #    By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/19 17:55:34 by migarrid          #+#    #+#              #
-#    Updated: 2025/06/21 20:58:36 by migarrid         ###   ########.fr        #
+#    Updated: 2025/07/01 03:47:12 by migarrid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,7 +72,17 @@ CLEAR 				= \r\033[K
 # **************************************************************************** #
 #                               Source File                                    #
 # **************************************************************************** #
-SRCS =				main.c \
+SRCS =				pipex.c \
+					parent.c \
+					child.c \
+					path.c \
+					init.c \
+					clean.c \
+					open.c \
+					exit.c \
+					here_doc.c \
+
+SRC_BONUS =			\
 
 # **************************************************************************** #
 #                              Progress Bars                                   #
@@ -94,17 +104,24 @@ BONUS_PCT = $(shell expr 100 \* $(BONUS_COUNT) / $(BONUS_COUNT_TOT))
 # **************************************************************************** #
 #                               Object File                                    #
 # **************************************************************************** #
+# Create directories
+$(OBJ_DIR):
+	@$(MKDIR) $(OBJ_DIR)
+
+$(OBJ_BONUS_DIR):
+	@$(MKDIR) $(OBJ_BONUS_DIR)
+
 OBJS		= $(SRCS:%.c=$(OBJ_DIR)/%.o)
 OBJS_BONUS 	= $(SRC_BONUS:%.c=$(OBJ_BONUS_DIR)/%.o)
 
 # Rule to compile archive .c to ,o with progress bars
-${OBJ_DIR}/%.o: ${SRC_DIR}/%.c $(DEPS)
+${OBJ_DIR}/%.o: ${SRC_DIR}/%.c $(DEPS) | $(OBJ_DIR)
 	@$(eval SRC_COUNT = $(shell expr $(SRC_COUNT) + 1))
 	@$(PRINT) "\r%100s\r[ %d/%d (%d%%) ] Compiling $(BLUE)$<$(DEFAULT)...\n" "" $(SRC_COUNT) $(SRC_COUNT_TOT) $(SRC_PCT)
 	@$(CC) $(CFLAGS) -I. -c -o $@ $<
 
 # Rule to compile archive .c to ,o with progress bars (Bonus)
-$(OBJ_BONUS_DIR)/%.o: $(SRC_BONUS_DIR)/%.c $(DEPS)
+$(OBJ_BONUS_DIR)/%.o: $(SRC_BONUS_DIR)/%.c $(DEPS) | $(OBJ_BONUS_DIR)
 	@$(eval BONUS_COUNT = $(shell expr $(BONUS_COUNT) + 1))
 	@$(PRINT) "\r%100s\r[ %d/%d (%d%%) ] Compiling $(MAGENTA)$<$(DEFAULT)...\n" "" $(BONUS_COUNT) $(BONUS_COUNT_TOT) $(BONUS_PCT)
 	@$(CC) $(CFLAGS) -I. -c -o $@ $<

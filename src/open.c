@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_unsigned_bonus.c                          :+:      :+:    :+:   */
+/*   open.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/12 22:10:56 by migarrid          #+#    #+#             */
-/*   Updated: 2025/03/18 15:27:24 by migarrid         ###   ########.fr       */
+/*   Created: 2025/06/30 22:49:27 by migarrid          #+#    #+#             */
+/*   Updated: 2025/07/01 04:16:44 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft_plus.h"
+#include "../inc/pipex.h"
 
-int	ft_print_unsigned(unsigned int n, t_format *fmt)
+int	open_file(char *file, int mode)
 {
-	int		len;
-	char	*str;
+	int	fd;
 
-	str = ft_itoa_base((long)n, "0123456789");
-	if (!str)
+	if (mode == APPEND)
+		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, FILE_PERMS);
+	else if (mode == TRUNCATE)
+		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, FILE_PERMS);
+	else
+		fd = open(file, O_RDONLY);
+	if (fd < 0)
+	{
+		if (mode == READ_ONLY)
+			ft_printf_fd(STDERR, ERR_FILE, file);
+		else
+			ft_printf_fd(STDERR, ERR_PERMS, file);
 		return (-1);
-	ft_apply_flags(&str, fmt);
-	if (!str)
-		return (-1);
-	len = write(1, str, ft_strlen(str));
-	free(str);
-	return (len);
+	}
+	return (fd);
 }

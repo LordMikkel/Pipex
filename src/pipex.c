@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_num_bonus.c                               :+:      :+:    :+:   */
+/*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/08 23:30:57 by migarrid          #+#    #+#             */
-/*   Updated: 2025/03/18 15:27:12 by migarrid         ###   ########.fr       */
+/*   Created: 2025/06/28 20:37:07 by migarrid          #+#    #+#             */
+/*   Updated: 2025/07/01 03:44:46 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft_plus.h"
+#include "../inc/pipex.h"
 
-int	ft_print_num(int n, t_format *fmt)
+int	main(int ac, char **av, char **envp)
 {
-	int		len;
-	char	*str;
+	t_pipex	px;
+	int		exit_status;
 
-	str = ft_itoa(n);
-	if (!str)
-		return (-1);
-	ft_apply_flags(&str, fmt);
-	if (!str)
-		return (-1);
-	len = write(1, str, ft_strlen(str));
-	free(str);
-	return (len);
+	if (ac < 5)
+		exit_error(ERR_ARGS, EXIT_FAILURE, NULL);
+	if (ft_strcmp(av[1], "here_doc") == 0)
+		here_doc_mode(&px, ac, av, envp);
+	else
+		init_pipex(&px, ac, av, envp);
+	exit_status = parent_process(&px, av);
+	return (exit_status);
 }

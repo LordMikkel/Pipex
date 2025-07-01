@@ -6,7 +6,7 @@
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 16:10:39 by migarrid          #+#    #+#             */
-/*   Updated: 2025/06/16 17:36:29 by migarrid         ###   ########.fr       */
+/*   Updated: 2025/06/28 17:33:56 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ typedef struct s_format
 }	t_format;
 
 // ------------- Funtion (Principal) ----------------
-int		ft_printf(char const *str, ...);
+int		ft_printf_fd(int fd, char const *str, ...);
 
 // ----------- Aux. Funtion (flags bonus) ------------
 void	ft_apply_flags(char **str, t_format *fmt);
@@ -119,16 +119,22 @@ void	ft_apply_zero_pad(char **str, t_format *fmt);
 void	ft_apply_min_width(char **str, t_format *fmt);
 
 // ------------ Print Funtion (Utils) ----------------
-int		ft_print_char(char c, t_format *fmt);
-int		ft_print_str(char *str, t_format *fmt);
-int		ft_print_ptr(void *ptr, t_format *fmt);
-int		ft_print_num(int n, t_format *fmt);
-int		ft_print_unsigned(unsigned int n, t_format *fmt);
-int		ft_print_hex(unsigned int n, t_format *fmt, int uppercase);
+int		ft_print_char_fd(char c, t_format *fmt, int fd);
+int		ft_print_str_fd(char *str, t_format *fmt, int fd);
+int		ft_print_ptr_fd(void *ptr, t_format *fmt, int fd);
+int		ft_print_num_fd(int n, t_format *fmt, int fd);
+int		ft_print_unsigned_fd(unsigned int n, t_format *fmt, int fd);
+int		ft_print_hex_fd(unsigned int n, t_format *fmt, int uppercase, int fd);
+int		ft_print_float_fd(double f, t_format *fmt, int fd);
 
 // ------------ Aux. Funtion (Utils) --------------
 char	*ft_itoa_base(long n, char *base);
 char	*ft_utoa_base(unsigned long n);
+
+// ------------ Aux. Funtion float (Utils) --------------
+long	ft_power_10(int exp);
+int		ft_is_special(double f, char **result);
+void	ft_add_zeros(char *result, int *pos, int count);
 
 // GET_NEXT_LINE
 

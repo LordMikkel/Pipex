@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/19 16:32:23 by migarrid          #+#    #+#             */
-/*   Updated: 2025/06/21 20:58:05 by migarrid         ###   ########.fr       */
+/*   Created: 2025/06/29 19:26:47 by migarrid          #+#    #+#             */
+/*   Updated: 2025/06/30 21:42:00 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/pipex.h"
 
-int	main(int ac, char **av)
+int	exit_error(char *error, int type, t_pipex *px)
 {
-	if (ac != 4)
-		return(ft_putstr_fd(ERR_ARGS, STDERR), EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	if (px)
+		clean_pipes(px);
+	if (error)
+		ft_printf_fd(STDERR, error);
+	if (errno)
+		ft_printf_fd(STDERR, ERRNO, strerror(errno));
+	exit(type);
 }
