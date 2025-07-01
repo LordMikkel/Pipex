@@ -6,7 +6,7 @@
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 17:01:50 by migarrid          #+#    #+#             */
-/*   Updated: 2025/07/01 21:09:12 by migarrid         ###   ########.fr       */
+/*   Updated: 2025/07/01 04:16:59 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,14 @@ typedef struct s_pipex
 {
 	int		infile;
 	int		outfile;
-	int		cmd[2];
-	int		*pipe_fd[2];
+	int		here_doc;
+	char	*limiter;
+	int		cmd_start;
+	int		cmd_count;
+	int		pipes_count;
+	int		**pipes;
 	char	**envp;
-	pid_t	pid[2];
+	pid_t	*pids;
 }	t_pipex;
 
 /* ************************************************************************** */
@@ -41,11 +45,15 @@ typedef struct s_pipex
 int		parent_process(t_pipex *px, char **av);
 void	child_process(t_pipex *px, char *cmd, int i);
 void	execute(t_pipex *px, char *cmd, char **envp);
+void	here_doc_mode(t_pipex *px, int ac, char **av, char **envp);
+int		wait_all(t_pipex *px, int childs);
 
 /* ************************************************************************** */
 /*                             Initialization                                 */
 /* ************************************************************************** */
 void	init_pipex(t_pipex *px, int ac, char **av, char **envp);
+void	init_here_doc(t_pipex *px, int ac, char **av, char **envp);
+void	create_pipes(t_pipex *px);
 
 /* ************************************************************************** */
 /*                                 utils                                      */
@@ -56,13 +64,14 @@ char	*get_path(char *cmd, char **envp);
 /* ************************************************************************** */
 /*                                 clean                                      */
 /* ************************************************************************** */
+void	clean_pipes(t_pipex *px);
 void	close_pipes(t_pipex *px);
+void	free_pipes(t_pipex *px);
 
 /* ************************************************************************** */
 /*                                  exit                                      */
 /* ************************************************************************** */
 int		exit_error(char *error, int type, t_pipex *px);
-
 
 /* ************************************************************************** */
 /*                                  Limits                                    */

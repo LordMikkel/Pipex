@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   child.c                                            :+:      :+:    :+:   */
+/*   child_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 03:44:36 by migarrid          #+#    #+#             */
-/*   Updated: 2025/07/01 21:46:10 by migarrid         ###   ########.fr       */
+/*   Updated: 2025/07/01 20:26:03 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/pipex.h"
+#include "../inc/pipex_bonus.h"
 
 void	execute(t_pipex *px, char *args, char **envp)
 {
@@ -37,41 +37,39 @@ void	execute(t_pipex *px, char *args, char **envp)
 	}
 }
 
-static void setup_stdin(t_pipex *px, int i)
+static void	setup_stdin(t_pipex *px, int i)
 {
 	if (i == 0)
 	{
-		if (px->infile >= 0)
+		if (px->here_doc && px->infile >= 0)
 		{
 			dup2(px->infile, STDIN_FILENO);
 			close(px->infile);
 		}
-		else
+		else if (!px->here_doc && px->infile >= 0)
+		{
+			dup2(px->infile, STDIN_FILENO);
+			close(px->infile);
+		}
+		else if (!px->here_doc &&px->infile < 0)
 			close(STDIN_FILENO);
 	}
-	else if (i == 1)
-	{
-		dup2(px->pipe_fd[0], STDIN_FILENO);
-	}
+	else
+		dup2(px->pipes[i - 1][0], STDIN_FILENO);
 }
 
-static void setup_stdout(t_pipex *px, int i)
+static void	setup_stdout(t_pipex *px, int i)
 {
-	if (i == 0)
+	if (i != px->cmd_count - OUTFILE)
+		dup2(px->pipes[i][1], STDOUT_FILENO);
+	else if (px->outfile >= 0)
 	{
-		dup2(px->pipe_fd[1], STDOUT_FILENO);
-	}
-	else if (i == 1)
-	{
-		if (px->outfile >= 0)
-		{
-			dup2(px->outfile, STDOUT_FILENO);
-			close(px->outfile);
-		}
+		dup2(px->outfile, STDOUT_FILENO);
+		close(px->outfile);
 	}
 }
 
-void child_process(t_pipex *px, char *cmd, int i)
+void	child_process(t_pipex *px, char *cmd, int i)
 {
 	setup_stdin(px, i);
 	setup_stdout(px, i);

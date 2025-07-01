@@ -1,38 +1,57 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parent.c                                           :+:      :+:    :+:   */
+/*   parent_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 03:44:01 by migarrid          #+#    #+#             */
-/*   Updated: 2025/07/01 21:44:57 by migarrid         ###   ########.fr       */
+/*   Updated: 2025/07/01 20:26:20 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/pipex.h"
+#include "../inc/pipex_bonus.h"
+
+int	wait_all(t_pipex *px, int childs)
+{
+	int	i;
+	int	status;
+
+	i = 0;
+	while (i < childs)
+	{
+		waitpid(px->pids[i], &status, 0);
+		if (i == px->cmd_count - 1)
+		{
+			if (WIFEXITED(status))
+				status = WEXITSTATUS(status);
+		}
+		i++;
+	}
+	if (px->outfile < 0)
+		status = 1;
+	return (status);
+}
 
 int	parent_process(t_pipex *px, char **av)
 {
-	int	i;
-	int	status[2];
+	int		status;
+	int		i;
 
-	if (pipe(px->pipe_fd) == -1)
-		exit_error(ERR_PIPE, EXIT_FAILURE, px);
 	i = 0;
-	while(i < 2)
+	create_pipes(px);
+	while (i < px->cmd_count)
 	{
-		px->pid[i] = fork();
-		if (px->pid[i] == -1)
+		px->pids[i] = fork();
+		if (px->pids[i] == -1)
 			exit_error(ERR_FORK, EXIT_FAILURE, px);
-		if (px->pid[i] == 0)
-			child_process(px, av[i + px->cmd[0]], i);
+		if (px->pids[i] == 0)
+			child_process(px, av[px->cmd_start + i], i);
 		i++;
 	}
 	close_pipes(px);
-	waitpid(px->pid[0], &status[0], 0);
-	waitpid(px->pid[1], &status[1], 0);
-	if (WIFEXITED(status[2]))
-		return(WEXITSTATUS(status[2]));
-	return (EXIT_FAILURE);
+	status = wait_all(px, px->cmd_count);
+	free(px->pids);
+	free_pipes(px);
+	return (status);
 }
