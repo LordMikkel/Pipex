@@ -6,11 +6,11 @@
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 03:44:36 by migarrid          #+#    #+#             */
-/*   Updated: 2025/07/01 20:26:03 by migarrid         ###   ########.fr       */
+/*   Updated: 2025/07/02 01:41:46 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/pipex_bonus.h"
+#include "../../inc/pipex_bonus.h"
 
 void	execute(t_pipex *px, char *args, char **envp)
 {
@@ -55,13 +55,13 @@ static void	setup_stdin(t_pipex *px, int i)
 			close(STDIN_FILENO);
 	}
 	else
-		dup2(px->pipes[i - 1][0], STDIN_FILENO);
+		dup2(px->pipes_fd[i - 1][0], STDIN_FILENO);
 }
 
 static void	setup_stdout(t_pipex *px, int i)
 {
 	if (i != px->cmd_count - OUTFILE)
-		dup2(px->pipes[i][1], STDOUT_FILENO);
+		dup2(px->pipes_fd[i][1], STDOUT_FILENO);
 	else if (px->outfile >= 0)
 	{
 		dup2(px->outfile, STDOUT_FILENO);

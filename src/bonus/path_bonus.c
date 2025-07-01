@@ -6,11 +6,11 @@
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 23:08:12 by migarrid          #+#    #+#             */
-/*   Updated: 2025/07/01 20:26:22 by migarrid         ###   ########.fr       */
+/*   Updated: 2025/07/02 01:41:25 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/pipex_bonus.h"
+#include "../../inc/pipex_bonus.h"
 
 char	*get_path(char *cmd, char **envp)
 {

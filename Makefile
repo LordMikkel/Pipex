@@ -6,7 +6,7 @@
 #    By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/19 17:55:34 by migarrid          #+#    #+#              #
-#    Updated: 2025/07/01 03:47:12 by migarrid         ###   ########.fr        #
+#    Updated: 2025/07/02 01:45:30 by migarrid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@
 #                              Project Information                             #
 # **************************************************************************** #
 NAME				= pipex
+NAME_BONUS			= pipex_bonus
 
 # **************************************************************************** #
 #                            Compiler and Flags                                #
@@ -80,9 +81,16 @@ SRCS =				pipex.c \
 					clean.c \
 					open.c \
 					exit.c \
-					here_doc.c \
 
-SRC_BONUS =			\
+SRC_BONUS =			pipex_bonus.c \
+					here_doc_bonus.c\
+					parent_bonus.c \
+					child_bonus.c \
+					path_bonus.c \
+					init_bonus.c \
+					clean_bonus.c \
+					open_bonus.c \
+					exit_bonus.c \
 
 # **************************************************************************** #
 #                              Progress Bars                                   #
@@ -132,17 +140,22 @@ $(OBJ_BONUS_DIR)/%.o: $(SRC_BONUS_DIR)/%.c $(DEPS) | $(OBJ_BONUS_DIR)
 
 all: $(LIBFT_A) $(NAME)
 
-# Build fdf executable
+# Build pipex executable
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_A) -I$(INC_DIR) -o $(NAME)
 	@$(PRINT) "${CLEAR}${RESET}${GREY}────────────────────────────────────────────────────────────────────────────\n${RESET}${GREEN}»${RESET} [${PURPLE}${BOLD}${NAME}${RESET}]: ${RED}${BOLD}${NAME} ${RESET}compiled ${GREEN}successfully${RESET}.${GREY}\n${RESET}${GREY}────────────────────────────────────────────────────────────────────────────\n${RESET}"
+
+# Build pipex_bonus executable
+$(NAME_BONUS): $(OBJS_BONUS)
+	@$(CC) $(CFLAGS) $(OBJS_BONUS) $(LIBFT_A) -I$(INC_DIR) -o $(NAME_BONUS)
+	@$(PRINT) "${CLEAR}${RESET}${GREY}────────────────────────────────────────────────────────────────────────────\n${RESET}${GREEN}»${RESET} [${PURPLE}${BOLD}${NAME_BONUS}${RESET}]: ${RED}${BOLD}${NAME_BONUS} ${RESET}compiled ${GREEN}successfully${RESET}.${GREY}\n${RESET}${GREY}────────────────────────────────────────────────────────────────────────────\n${RESET}"
 
 # Rebuild libft.a
 $(LIBFT_A): $(LIBFT_MAKEFILE) $(LIBFT_H)
 	@$(MAKE) -s -C $(LIBFT_DIR)
 
 # Rule to compile bonus
-Bonus: all
+bonus: $(LIBFT_A) $(NAME_BONUS)
 
 # Test the norminette in my .c files
 norm:
@@ -153,20 +166,21 @@ norm:
 # Clean object files
 clean:
 	@$(MAKE) clean -s -C $(LIBFT_DIR)
-	@$(RM) $(OBJS)
+	@$(RM) $(OBJ_DIR)
 	@$(PRINT) "${CLEAR}${RESET}${GREEN}»${RESET} [${PURPLE}${BOLD}${NAME}${RESET}]: Objects were cleaned ${GREEN}successfully${RESET}.\n${RESET}"
 
 # Full clean
 fclean: clean
 	@$(MAKE) fclean -s -C $(LIBFT_DIR)
 	@$(RM) $(NAME)
+	@$(RM) $(NAME_BONUS)
 	@$(PRINT) "${CLEAR}${RESET}${GREY}────────────────────────────────────────────────────────────────────────────\n${RESET}${GREEN}»${RESET} [${PURPLE}${BOLD}${NAME}${RESET}]: Project cleaned ${GREEN}successfully${RESET}.${GREY}\n${RESET}${GREY}────────────────────────────────────────────────────────────────────────────\n${RESET}"
 
 # Rebuild everything
 re: fclean all
 
 # Rebuild everything including bonus
-rebonus: fclean all bonus
+rebonus: fclean bonus
 
 # Phony targets
 .PHONY: all bonus clean fclean re rebonus

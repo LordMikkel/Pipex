@@ -6,7 +6,7 @@
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 17:01:50 by migarrid          #+#    #+#             */
-/*   Updated: 2025/07/01 21:09:12 by migarrid         ###   ########.fr       */
+/*   Updated: 2025/07/02 00:29:21 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ typedef struct s_pipex
 {
 	int		infile;
 	int		outfile;
-	int		cmd[2];
-	int		*pipe_fd[2];
+	int		cmd_start;
+	int		pipe_fd[2];
 	char	**envp;
 	pid_t	pid[2];
 }	t_pipex;

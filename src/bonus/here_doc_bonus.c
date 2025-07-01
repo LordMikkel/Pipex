@@ -6,11 +6,11 @@
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:38:36 by migarrid          #+#    #+#             */
-/*   Updated: 2025/07/01 20:26:13 by migarrid         ###   ########.fr       */
+/*   Updated: 2025/07/02 01:41:36 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/pipex_bonus.h"
+#include "../../inc/pipex_bonus.h"
 
 void	here_doc_mode(t_pipex *px, int ac, char **av, char **envp)
 {

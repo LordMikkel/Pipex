@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 17:01:50 by migarrid          #+#    #+#             */
-/*   Updated: 2025/07/01 04:16:59 by migarrid         ###   ########.fr       */
+/*   Updated: 2025/07/02 00:17:25 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_pipex
 	int		cmd_start;
 	int		cmd_count;
 	int		pipes_count;
-	int		**pipes;
+	int		**pipes_fd;
 	char	**envp;
 	pid_t	*pids;
 }	t_pipex;

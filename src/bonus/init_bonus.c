@@ -6,11 +6,11 @@
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 19:26:13 by migarrid          #+#    #+#             */
-/*   Updated: 2025/07/01 20:26:15 by migarrid         ###   ########.fr       */
+/*   Updated: 2025/07/02 01:41:33 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/pipex_bonus.h"
+#include "../../inc/pipex_bonus.h"
 
 void	init_here_doc(t_pipex *px, int ac, char **av, char **envp)
 {
@@ -42,21 +42,3 @@ void	init_pipex(t_pipex *px, int ac, char **av, char **envp)
 		exit_error(ERR_MEM, EXIT_FAILURE, px);
 }
 
-void	create_pipes(t_pipex *px)
-{
-	int	i;
-
-	i = 0;
-	px->pipes = ft_calloc(px->pipes_count, sizeof(int *));
-	if (!px->pipes)
-		exit_error(ERR_MEM, EXIT_FAILURE, px);
-	while (i < px->pipes_count)
-	{
-		px->pipes[i] = ft_calloc(2, sizeof(int));
-		if (!px->pipes[i])
-			exit_error(ERR_MEM, EXIT_FAILURE, px);
-		if (pipe(px->pipes[i]) == ERROR)
-			exit_error(ERR_PIPE, EXIT_FAILURE, px);
-		i++;
-	}
-}

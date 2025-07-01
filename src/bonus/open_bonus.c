@@ -6,11 +6,11 @@
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 22:49:27 by migarrid          #+#    #+#             */
-/*   Updated: 2025/07/01 20:26:17 by migarrid         ###   ########.fr       */
+/*   Updated: 2025/07/02 01:41:30 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/pipex_bonus.h"
+#include "../../inc/pipex_bonus.h"
 
 int	open_file(char *file, int mode)
 {
