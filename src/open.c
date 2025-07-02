@@ -6,7 +6,7 @@
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 22:49:27 by migarrid          #+#    #+#             */
-/*   Updated: 2025/07/01 04:16:44 by migarrid         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:06:24 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int	open_file(char *file, int mode)
 		fd = open(file, O_RDONLY);
 	if (fd < 0)
 	{
-		if (mode == READ_ONLY)
+		if (errno == ENOENT)
 			ft_printf_fd(STDERR, ERR_FILE, file);
-		else
+		else if (errno == EACCES)
 			ft_printf_fd(STDERR, ERR_PERMS, file);
 		return (-1);
 	}

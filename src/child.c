@@ -6,7 +6,7 @@
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 03:44:36 by migarrid          #+#    #+#             */
-/*   Updated: 2025/07/02 01:54:01 by migarrid         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:30:53 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,12 @@ void	execute(t_pipex *px, char *args, char **envp)
 	char	*path;
 
 	cmd = ft_split(args, ' ');
-	if (!cmd)
+	if (!cmd || !cmd[0] || !cmd[0][0])
+	{
+		ft_printf_fd(STDERR, ERR_CMD_N);
+		ft_free_str_array(cmd);
 		exit_error(ERR_MEM, EXIT_CMD, px);
+	}
 	path = get_path(cmd[0], envp);
 	if (!path)
 	{

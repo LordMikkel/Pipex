@@ -6,7 +6,7 @@
 #    By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/19 17:55:34 by migarrid          #+#    #+#              #
-#    Updated: 2025/07/02 01:56:39 by migarrid         ###   ########.fr        #
+#    Updated: 2025/07/02 18:13:33 by migarrid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ NAME_BONUS			= pipex_bonus
 #                            Compiler and Flags                                #
 # **************************************************************************** #
 CC					= cc
-CFLAGS				= -g #-Wall -Wextra -Werror #-fsanitize=address,undefined -O0
+CFLAGS				= -g -Wall -Wextra -Werror #-fsanitize=address,undefined -O0
 
 # **************************************************************************** #
 #                               Shell Comands                                  #

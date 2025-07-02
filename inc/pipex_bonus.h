@@ -6,7 +6,7 @@
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 17:01:50 by migarrid          #+#    #+#             */
-/*   Updated: 2025/07/02 01:55:06 by migarrid         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:32:10 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ int		exit_error(char *error, int type, t_pipex *px);
 # define ERR_PIPE		"Error: Failed to create pipe. System limit reached\n"
 # define ERR_FILE		"Error: '%s' No such file or directory\n"
 # define ERR_CMD		"Error: '%s' command not found\n"
+# define ERR_CMD_N		"Error: '' command not found\n"
 # define ERR_EXEC		"Error: Failed to execute command\n"
 # define ERR_FORK		"Error: Fork process failed\n"
 # define ERR_MEM		"Error: Memory alloc failed. Check system resources\n"

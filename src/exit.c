@@ -6,7 +6,7 @@
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 19:26:47 by migarrid          #+#    #+#             */
-/*   Updated: 2025/07/02 00:52:07 by migarrid         ###   ########.fr       */
+/*   Updated: 2025/07/02 16:52:50 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	exit_error(char *error, int type, t_pipex *px)
 {
-	if (px && px->pipe_fd)
+	if (px)
 		close_pipes(px);
 	if (error)
 		ft_printf_fd(STDERR, error);

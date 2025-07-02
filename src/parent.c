@@ -6,7 +6,7 @@
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 03:44:01 by migarrid          #+#    #+#             */
-/*   Updated: 2025/07/02 01:53:35 by migarrid         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:15:57 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	parent_process(t_pipex *px, char **av)
 {
 	int	i;
-	int	status;
+	int	status[2];
 
 	if (pipe(px->pipe_fd) == ERROR)
 		exit_error(ERR_PIPE, EXIT_FAILURE, px);
@@ -30,10 +30,11 @@ int	parent_process(t_pipex *px, char **av)
 		i++;
 	}
 	close_pipes(px);
-	waitpid(px->pid[1], &status, 0);
-	if (WIFEXITED(status))
-		status = WEXITSTATUS(status);
+	waitpid(px->pid[0], &status[0], 0);
+	waitpid(px->pid[1], &status[1], 0);
+	if (WIFEXITED(status[1]))
+		status[1] = WEXITSTATUS(status[1]);
 	if (px->outfile < 0)
-		status = EXIT_FAILURE;
-	return (status);
+		status[1] = EXIT_FAILURE;
+	return (status[1]);
 }
