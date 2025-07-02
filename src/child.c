@@ -6,7 +6,7 @@
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 03:44:36 by migarrid          #+#    #+#             */
-/*   Updated: 2025/07/01 21:46:10 by migarrid         ###   ########.fr       */
+/*   Updated: 2025/07/02 01:54:01 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	execute(t_pipex *px, char *args, char **envp)
 	}
 }
 
-static void setup_stdin(t_pipex *px, int i)
+static void	setup_stdin(t_pipex *px, int i)
 {
 	if (i == 0)
 	{
@@ -55,7 +55,7 @@ static void setup_stdin(t_pipex *px, int i)
 	}
 }
 
-static void setup_stdout(t_pipex *px, int i)
+static void	setup_stdout(t_pipex *px, int i)
 {
 	if (i == 0)
 	{
@@ -71,7 +71,7 @@ static void setup_stdout(t_pipex *px, int i)
 	}
 }
 
-void child_process(t_pipex *px, char *cmd, int i)
+void	child_process(t_pipex *px, char *cmd, int i)
 {
 	setup_stdin(px, i);
 	setup_stdout(px, i);

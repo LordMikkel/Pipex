@@ -6,7 +6,7 @@
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 03:44:01 by migarrid          #+#    #+#             */
-/*   Updated: 2025/07/02 01:16:44 by migarrid         ###   ########.fr       */
+/*   Updated: 2025/07/02 01:53:35 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	parent_process(t_pipex *px, char **av)
 	if (pipe(px->pipe_fd) == ERROR)
 		exit_error(ERR_PIPE, EXIT_FAILURE, px);
 	i = 0;
-	while(i < 2)
+	while (i < 2)
 	{
 		px->pid[i] = fork();
 		if (px->pid[i] == -1)

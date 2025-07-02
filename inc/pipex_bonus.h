@@ -6,12 +6,12 @@
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 17:01:50 by migarrid          #+#    #+#             */
-/*   Updated: 2025/07/02 00:17:25 by migarrid         ###   ########.fr       */
+/*   Updated: 2025/07/02 01:55:06 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
 /* ************************************************************************** */
 /*                               Includes                                     */

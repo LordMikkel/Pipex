@@ -6,7 +6,7 @@
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 19:26:13 by migarrid          #+#    #+#             */
-/*   Updated: 2025/07/02 01:41:33 by migarrid         ###   ########.fr       */
+/*   Updated: 2025/07/02 01:54:26 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,3 @@ void	init_pipex(t_pipex *px, int ac, char **av, char **envp)
 	if (!px->pids)
 		exit_error(ERR_MEM, EXIT_FAILURE, px);
 }
-

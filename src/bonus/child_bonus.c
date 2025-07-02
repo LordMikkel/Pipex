@@ -6,7 +6,7 @@
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 03:44:36 by migarrid          #+#    #+#             */
-/*   Updated: 2025/07/02 01:41:46 by migarrid         ###   ########.fr       */
+/*   Updated: 2025/07/02 01:54:11 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	setup_stdin(t_pipex *px, int i)
 			dup2(px->infile, STDIN_FILENO);
 			close(px->infile);
 		}
-		else if (!px->here_doc &&px->infile < 0)
+		else if (!px->here_doc && px->infile < 0)
 			close(STDIN_FILENO);
 	}
 	else
