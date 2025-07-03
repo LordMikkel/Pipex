@@ -6,7 +6,7 @@
 /*   By: migarrid <migarrid@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 16:38:36 by migarrid          #+#    #+#             */
-/*   Updated: 2025/07/02 01:41:36 by migarrid         ###   ########.fr       */
+/*   Updated: 2025/07/03 12:48:46 by migarrid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	here_doc_mode(t_pipex *px, int ac, char **av, char **envp)
 	init_here_doc(px, ac, av, envp);
 	if (pipe(fd) == ERROR)
 		exit_error(ERR_PIPE, EXIT_FAILURE, px);
-	ft_printf_fd(STDERR, "heredoc> ");
+	ft_printf_fd(STDOUT, "heredoc> ");
 	while (1)
 	{
 		line = get_next_line(STDIN);
@@ -34,7 +34,7 @@ void	here_doc_mode(t_pipex *px, int ac, char **av, char **envp)
 		}
 		ft_printf_fd(fd[1], line);
 		free(line);
-		ft_printf_fd(STDERR, "heredoc> ");
+		ft_printf_fd(STDOUT, "heredoc> ");
 	}
 	close(fd[1]);
 	px->infile = fd[0];
