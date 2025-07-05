@@ -389,4 +389,4 @@ Este conocimiento es fundamental para:
 
 ## 📞 Contacto
 
-[![42](https://img.shields.io/badge/42-migarrid-000000?style=flat&logo=42&logoColor=white)](https://profile.intra.42.fr/users/migarrid)
+[![(https://img.shields.io/badge/42-migarrid-000000?style=flat&logo=42&logoColor=white)](https://profile.intra.42.fr/users/migarrid)
