@@ -4,9 +4,9 @@
 [![Language](https://img.shields.io/badge/Language-C-blue.svg)](https://en.wikipedia.org/wiki/C_(programming_language))
 [![Norminette](https://img.shields.io/badge/Norminette-passing-success)](https://github.com/42School/norminette)
 
-<p align="center"> <img src="image/.score.png" alt="alt text" /> </p>
-
 > Un proyecto de 42 que replica el comportamiento de los pipes (tuberías) de Unix/Linux, permitiendo conectar comandos entre sí de manera similar a como funciona el shell.
+
+<p align="center"> <img src="image/.score.png" alt="alt text" /> </p>
 
 ## 📋 Índice
 
