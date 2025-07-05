@@ -2,6 +2,7 @@
 
 [![42 School](https://img.shields.io/badge/42-School-000000?style=flat&logo=42&logoColor=white)](https://42.fr/)
 [![Language](https://img.shields.io/badge/Language-C-blue.svg)](https://en.wikipedia.org/wiki/C_(programming_language))
+[![Norminette](https://img.shields.io/badge/Norminette-passing-success)](https://github.com/42School/norminette)
 
 > Un proyecto de 42 que replica el comportamiento de los pipes (tuberías) de Unix/Linux, permitiendo conectar comandos entre sí de manera similar a como funciona el shell.
 
@@ -59,20 +60,6 @@ Los **pipes** son un mecanismo de comunicación entre procesos que permite que l
 └─────────┘    └──────┘    └──────┘    └──────┘    └─────────┘
 ```
 
-### 🌟 Características
-
-- **🔗 Múltiples pipes**: Conecta N comandos en cadena
-- **📝 Here_doc**: Entrada interactiva como en bash (`<<`)
-- **📎 Append mode**: Añadir al archivo en lugar de sobrescribir
-- **🔧 Manejo robusto de errores**: Continúa funcionando aunque fallen comandos intermedios
-
-### 💡 ¿Por qué es importante?
-
-Este proyecto te enseña conceptos fundamentales de **programación de sistemas**:
-- 🍴 **Procesos**: Creación, gestión y sincronización con `fork()` y `waitpid()`
-- 🔗 **IPC (Inter-Process Communication)**: Comunicación entre procesos usando pipes
-- 📂 **File descriptors**: Manipulación y redirección de entrada/salida con `dup2()`
-- 🎮 **Ejecución de programas**: Reemplazo de procesos con `execve()`
 
 ## 🔬 Implementación Técnica
 
@@ -118,14 +105,33 @@ Comando 1 → Pipe 0 → Comando 2 → Pipe 1 → Comando 3 → Pipe 2 → Coman
 
 ### 🍴 Gestión de Procesos
 
-**El proceso padre actúa como director de orquesta:**
+**El proceso padre actúa como director de orquesta: 👨🏻**
 
 1. **Crea la infraestructura**: Todos los pipes necesarios
 2. **Lanza a los actores**: Un `fork()` por comando
 3. **Se retira**: Cierra todos los pipes (no los necesita)
 4. **Espera el final**: `waitpid()` a cada hijo
 
-**Cada proceso hijo se especializa:**
+```c
+	i = 0;
+	create_pipes(px);                    // Crear todos los pipes necesarios
+	while (i < px->cmd_count)
+	{
+		px->pids[i] = fork();            // Crear proceso hijo
+		if (px->pids[i] == -1)
+			exit_error(ERR_FORK, EXIT_FAILURE, px);
+		if (px->pids[i] == 0)            // Si soy el hijo...
+			child_process(px, av[px->cmd_start + i], i);  // Ejecutar comando
+		i++;
+	}
+	close_pipes(px);                     // Padre cierra todos los pipes
+	status = wait_all(px, px->cmd_count); // Esperar a todos los hijos
+	free(px->pids);                      // Limpiar memoria
+	free_pipes(px);
+	return (status);                     // Retornar estado final
+```
+
+**Cada proceso hijo se especializa: 👶🏻**
 
 1. **Configura su entrada**:
    - Primer hijo: Lee del archivo o here_doc
@@ -133,14 +139,13 @@ Comando 1 → Pipe 0 → Comando 2 → Pipe 1 → Comando 3 → Pipe 2 → Coman
 2. **Configura su salida**:
    - Último hijo: Escribe al archivo
    - Resto: Escribe al pipe siguiente
-3. **Se transforma**: `execve()` para convertirse en el comando
 
 ### 🎭 Configuración de Entrada/Salida
 
 **Para el comando en posición `i`:**
 
 ```c
-// Configurar STDIN
+// Configurar STDIN (de dónde lee el comando)
 if (i == 0) {
     // Primer comando: lee del archivo o here_doc
     dup2(px->infile, STDIN_FILENO);
@@ -149,7 +154,7 @@ if (i == 0) {
     dup2(px->pipes_fd[i-1][0], STDIN_FILENO);
 }
 
-// Configurar STDOUT
+// Configurar STDOUT (hacia dónde escribe el comando)
 if (i == última_posición) {
     // Último comando: escribe al archivo
     dup2(px->outfile, STDOUT_FILENO);
@@ -159,18 +164,33 @@ if (i == última_posición) {
 }
 ```
 
+3. **Se transforma**: `execve()` para convertirse en el comando
+
+```c
+	path = get_path(cmd[0], envp);       // Buscar comando en PATH
+	if (!path)
+	{
+		execve(cmd[0], cmd, envp);       // Intentar ejecutar directamente si no lo ha encontrado
+		ft_printf_fd(STDERR, ERR_CMD, cmd[0]);
+		ft_free_str_array(cmd);
+		exit_error(NULL, EXIT_CMD, px);
+	}
+	execve(path, cmd, envp);             // ¡Transformarse en el comando!
+```
 
 ### ⏳ Sincronización con waitpid()
 
 El padre debe esperar a **todos** los hijos para evitar procesos zombie:
 
 ```c
-// Esperar a cada hijo en orden
-for (int i = 0; i < cmd_count; i++) {
-    waitpid(pids[i], &status, 0);
-    // Solo nos importa el estado del último comando
-    if (i == cmd_count - 1) {
-        exit_status = WEXITSTATUS(status);
+// ⏳ Esperar a cada hijo en orden
+while (i < childs)
+{
+    waitpid(pids[i], &status, 0);       // Esperar a este hijo específico
+    if (i == cmd_count - 1) // Solo nos importa el estado del último comando
+	{
+        if (WIFEXITED(status))
+		status = WEXITSTATUS(status);
     }
 }
 ```
