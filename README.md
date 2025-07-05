@@ -296,7 +296,7 @@ make bonus
 ./pipex_bonus infile "cat" "grep user" "sort" "uniq" outfile
 
 ```
-![alt text](image/output.gif)
+<p align="center"> <img src="image/output.gif" alt="Pipex Demo" /> </p>
 
 ## 🎮 Usage
 
