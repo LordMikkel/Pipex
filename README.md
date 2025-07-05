@@ -341,7 +341,6 @@ make bonus
 hello world from pipex
 hello there
 EOF
-# outfile contendrá: 5
 ```
 
 **Equivalencias con bash:**
