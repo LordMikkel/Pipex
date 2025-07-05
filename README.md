@@ -297,7 +297,6 @@ make bonus
 
 ```
 
-![alt text](image/output.gif)
 
 ## 🎮 Usage
 
