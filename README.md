@@ -1,59 +1,59 @@
-# 🔧 Pipex - Simulando pipes de shell en C
+# 🔧 Pipex - Simulating shell pipes in C
 
 [![42 School](https://img.shields.io/badge/42-School-000000?style=flat&logo=42&logoColor=white)](https://42.fr/)
 [![Language](https://img.shields.io/badge/Language-C-blue.svg)](https://en.wikipedia.org/wiki/C_(programming_language))
 
-> Un proyecto de 42 que replica el comportamiento de los pipes (tuberías) de Unix/Linux, permitiendo conectar comandos entre sí de manera similar a como funciona el shell.
+> A 42 project that replicates the behavior of Unix/Linux pipes, allowing commands to be connected together similar to how the shell works.
 
 <p align="center"> <img src="image/.score.png" alt="alt text" /> </p>
 
-## 📋 Índice
+## 📋 Table of Contents
 
-- [¿Qué es Pipex?](#-qué-es-pipex)
-- [Conceptos Fundamentales](#-conceptos-fundamentales)
-- [Implementación Técnica](#-implementación-técnica)
-- [Arquitectura del Proyecto](#%EF%B8%8F-arquitectura-del-proyecto)
-- [Instalación y Compilación](#-instalación-y-compilación)
-- [Manejo de Errores](#%EF%B8%8F-manejo-de-errores)
+- [What is Pipex?](#-what-is-pipex)
+- [Fundamental Concepts](#-fundamental-concepts)
+- [Technical Implementation](#-technical-implementation)
+- [Project Architecture](#%EF%B8%8F-project-architecture)
+- [Installation and Compilation](#-installation-and-compilation)
+- [Error Handling](#%EF%B8%8F-error-handling)
 
-## 🎯 ¿Qué es Pipex?
+## 🎯 What is Pipex?
 
-**Pipex** es un programa que simula el comportamiento de los **pipes** (tuberías) del shell Unix/Linux. Permite conectar múltiples comandos en cadena, donde la salida de un comando se convierte en la entrada del siguiente, creando un flujo continuo de datos.
+**Pipex** is a program that simulates the behavior of **pipes** in Unix/Linux shell. It allows connecting multiple commands in a chain, where the output of one command becomes the input of the next, creating a continuous data flow.
 
-### 🔄 Equivalencias
+### 🔄 Equivalences
 
-**Versión básica (2 comandos):**
+**Basic version (2 commands):**
 ```bash
-# Shell tradicional
+# Traditional shell
 < infile grep "hello" | wc -l > outfile
 
-# Nuestro pipex
+# Our pipex
 ./pipex infile "grep hello" "wc -l" outfile
 ```
 
-**Versión bonus (múltiples comandos):**
+**Bonus version (multiple commands):**
 ```bash
-# Shell tradicional
+# Traditional shell
 < infile cat | grep "user" | sort | uniq > outfile
 
-# Nuestro pipex_bonus
+# Our pipex_bonus
 ./pipex_bonus infile "cat" "grep user" "sort" "uniq" outfile
 ```
 
-**Here_doc (entrada interactiva):**
+**Here_doc (interactive input):**
 ```bash
-# Shell tradicional
+# Traditional shell
 grep "hello" << EOF | wc -l >> outfile
 
-# Nuestro pipex_bonus
+# Our pipex_bonus
 ./pipex_bonus here_doc EOF "grep hello" "wc -l" outfile
 ```
 
-## 📚 Conceptos Fundamentales
+## 📚 Fundamental Concepts
 
-### 🪈 ¿Qué son los Pipes?
+### 🪈 What are Pipes?
 
-Los **pipes** son un mecanismo de comunicación entre procesos que permite que la salida de un programa sea la entrada de otro. En nuestro proyecto bonus, podemos crear cadenas de múltiples pipes:
+**Pipes** are an inter-process communication mechanism that allows the output of one program to be the input of another. In our bonus project, we can create chains of multiple pipes:
 
 ```
 ┌─────────┐    ┌──────┐    ┌──────┐    ┌──────┐    ┌─────────┐
@@ -62,41 +62,41 @@ Los **pipes** son un mecanismo de comunicación entre procesos que permite que l
 ```
 
 
-## 🔬 Implementación Técnica
+## 🔬 Technical Implementation
 
-### 🏁 Flujo Principal (Versión Bonus)
-
-```
-1. Validación de argumentos
-   ↓
-2. Detección: ¿Es here_doc?
-   ├─ Sí → Modo here_doc
-   └─ No → Modo normal
-   ↓
-3. Inicialización estructura
-   ↓
-4. Creación de múltiples pipes
-   ↓
-5. Fork para cada comando
-   ↓
-6. Configuración de entrada/salida por hijo
-   ↓
-7. Ejecución de comandos
-   ↓
-8. Espera y sincronización
-   ↓
-9. Limpieza de recursos
-```
-
-### 🔧 Creación de Múltiples Pipes
-
-En la versión bonus, creamos **N-1 pipes** para **N comandos**:
+### 🏁 Main Flow (Bonus Version)
 
 ```
-Comando 1 → Pipe 0 → Comando 2 → Pipe 1 → Comando 3 → Pipe 2 → Comando 4
+1. Argument validation
+   ↓
+2. Detection: Is it here_doc?
+   ├─ Yes → here_doc mode
+   └─ No → normal mode
+   ↓
+3. Structure initialization
+   ↓
+4. Multiple pipes creation
+   ↓
+5. Fork for each command
+   ↓
+6. Input/output configuration per child
+   ↓
+7. Commands execution
+   ↓
+8. Waiting and synchronization
+   ↓
+9. Resource cleanup
 ```
 
-**Representación visual:**
+### 🔧 Creating Multiple Pipes
+
+In the bonus version, we create **N-1 pipes** for **N commands**:
+
+```
+Command 1 → Pipe 0 → Command 2 → Pipe 1 → Command 3 → Pipe 2 → Command 4
+```
+
+**Visual representation:**
 ```
 ┌─────────┐   pipe[0]   ┌─────────┐   pipe[1]   ┌─────────┐   pipe[2]   ┌─────────┐
 │  cmd1   │ ────────▶	│  cmd2   │ ────────▶   │  cmd3   │ ────────▶  │  cmd4   │
@@ -104,91 +104,91 @@ Comando 1 → Pipe 0 → Comando 2 → Pipe 1 → Comando 3 → Pipe 2 → Coman
 └─────────┘             └─────────┘             └─────────┘             └─────────┘
 ```
 
-### 🍴 Gestión de Procesos
+### 🍴 Process Management
 
-**El proceso padre actúa como director de orquesta: 👨🏻**
+**The parent process acts as the orchestra conductor: 👨🏻**
 
-1. **Crea la infraestructura**: Todos los pipes necesarios
-2. **Lanza a los actores**: Un `fork()` por comando
-3. **Se retira**: Cierra todos los pipes (no los necesita)
-4. **Espera el final**: `waitpid()` a cada hijo
+1. **Creates the infrastructure**: All necessary pipes
+2. **Launches the actors**: One `fork()` per command
+3. **Steps back**: Closes all pipes (doesn't need them)
+4. **Waits for the end**: `waitpid()` for each child
 
 ```c
 	i = 0;
-	create_pipes(px);                    // Crear todos los pipes necesarios
+	create_pipes(px);                    // Create all necessary pipes
 	while (i < px->cmd_count)
 	{
-		px->pids[i] = fork();            // Crear proceso hijo
+		px->pids[i] = fork();            // Create child process
 		if (px->pids[i] == -1)
 			exit_error(ERR_FORK, EXIT_FAILURE, px);
-		if (px->pids[i] == 0)            // Si soy el hijo...
-			child_process(px, av[px->cmd_start + i], i);  // Ejecutar comando
+		if (px->pids[i] == 0)            // If I'm the child...
+			child_process(px, av[px->cmd_start + i], i);  // Execute command
 		i++;
 	}
-	close_pipes(px);                     // Padre cierra todos los pipes
-	status = wait_all(px, px->cmd_count); // Esperar a todos los hijos
-	free(px->pids);                      // Limpiar memoria
+	close_pipes(px);                     // Parent closes all pipes
+	status = wait_all(px, px->cmd_count); // Wait for all children
+	free(px->pids);                      // Clean memory
 	free_pipes(px);
-	return (status);                     // Retornar estado final
+	return (status);                     // Return final status
 ```
 
-**Cada proceso hijo se especializa: 👶🏻**
+**Each child process specializes: 👶🏻**
 
-1. **Configura su entrada**:
-   - Primer hijo: Lee del archivo o here_doc
-   - Resto: Lee del pipe anterior
-2. **Configura su salida**:
-   - Último hijo: Escribe al archivo
-   - Resto: Escribe al pipe siguiente
+1. **Configures its input**:
+   - First child: Reads from file or here_doc
+   - Rest: Read from previous pipe
+2. **Configures its output**:
+   - Last child: Writes to file
+   - Rest: Write to next pipe
 
-### 🎭 Configuración de Entrada/Salida
+### 🎭 Input/Output Configuration
 
-**Para el comando en posición `i`:**
+**For the command at position `i`:**
 
 ```c
-// Configurar STDIN (de dónde lee el comando)
+// Configure STDIN (where the command reads from)
 if (i == 0) {
-    // Primer comando: lee del archivo o here_doc
+    // First command: reads from file or here_doc
     dup2(px->infile, STDIN_FILENO);
 } else {
-    // Comandos intermedios: leen del pipe anterior
+    // Intermediate commands: read from previous pipe
     dup2(px->pipes_fd[i-1][0], STDIN_FILENO);
 }
 
-// Configurar STDOUT (hacia dónde escribe el comando)
-if (i == última_posición) {
-    // Último comando: escribe al archivo
+// Configure STDOUT (where the command writes to)
+if (i == last_position) {
+    // Last command: writes to file
     dup2(px->outfile, STDOUT_FILENO);
 } else {
-    // Comandos intermedios: escriben al pipe siguiente
+    // Intermediate commands: write to next pipe
     dup2(px->pipes_fd[i][1], STDOUT_FILENO);
 }
 ```
 
-3. **Se transforma**: `execve()` para convertirse en el comando
+3. **It transforms**: `execve()` to become the command
 
 ```c
-	path = get_path(cmd[0], envp);       // Buscar comando en PATH
+	path = get_path(cmd[0], envp);       // Search command in PATH
 	if (!path)
 	{
-		execve(cmd[0], cmd, envp);       // Intentar ejecutar directamente si no lo ha encontrado
+		execve(cmd[0], cmd, envp);       // Try to execute directly if not found
 		ft_printf_fd(STDERR, ERR_CMD, cmd[0]);
 		ft_free_str_array(cmd);
 		exit_error(NULL, EXIT_CMD, px);
 	}
-	execve(path, cmd, envp);             // ¡Transformarse en el comando!
+	execve(path, cmd, envp);             // Transform into the command!
 ```
 
-### ⏳ Sincronización con waitpid()
+### ⏳ Synchronization with waitpid()
 
-El padre debe esperar a **todos** los hijos para evitar procesos zombie:
+The parent must wait for **all** children to avoid zombie processes:
 
 ```c
-// ⏳ Esperar a cada hijo en orden
+// ⏳ Wait for each child in order
 while (i < childs)
 {
-    waitpid(pids[i], &status, 0);       // Esperar a este hijo específico
-    if (i == cmd_count - 1) 			// Solo nos importa el estado del último comando
+    waitpid(pids[i], &status, 0);       // Wait for this specific child
+    if (i == cmd_count - 1) 			// We only care about the last command's status
 	{
         if (WIFEXITED(status))
 		status = WEXITSTATUS(status);
@@ -196,198 +196,200 @@ while (i < childs)
 }
 ```
 
-**¿Por qué waitpid() y no wait()?**
-- `wait()`: Espera a cualquier hijo (no controlamos cuál)
-- `waitpid()`: Espera a un hijo específico (más control)
+**Why waitpid() and not wait()?**
+- `wait()`: Waits for any child (we don't control which one)
+- `waitpid()`: Waits for a specific child and get us his status (more control)
 
 
-### 📝 Implementación Here_doc
+### 📝 Here_doc Implementation
 
-El here_doc crea un **pipe temporal** para simular la entrada:
+The here_doc creates a **temporary pipe** to simulate input:
 
 ```
-Usuario escribe → Pipe temporal → Primer comando
+User writes → Temporary pipe → First command
     ↓
-heredoc> línea 1
-heredoc> línea 2
+heredoc> line 1
+heredoc> line 2
 heredoc> EOF
 ```
 
-**Proceso:**
-1. Crear pipe temporal
-2. Leer líneas del usuario hasta encontrar el limitador
-3. Escribir cada línea al pipe
-4. Cerrar escritura del pipe
-5. Usar la lectura del pipe como `infile`
+**Process:**
+1. Create temporary pipe
+2. Read lines from user until finding the delimiter
+3. Write each line to the pipe
+4. Close pipe write end
+5. Use pipe read end as `infile`
 
-## 🏗️ Arquitectura del Proyecto
+## 🏗️ Project Architecture
 
-### 🔧 Estructura Principal
+### 🔧 Main Structure
 
 ```c
 typedef struct s_pipex
 {
-    int     infile;          // FD del archivo de entrada
-    int     outfile;         // FD del archivo de salida
-    int     here_doc;        // Flag: ¿es modo here_doc?
-    char    *limiter;        // Limitador para here_doc
-    int     cmd_start;       // Índice donde empiezan los comandos
-    int     cmd_count;       // Número total de comandos
-    int     pipes_count;     // Número de pipes necesarios (cmd_count - 1)
-    int     **pipes_fd;      // Array de arrays [pipe][read/write]
-    char    **envp;          // Variables de entorno
-    pid_t   *pids;           // Array con PIDs de todos los hijos
+    int     infile;          // Input file FD
+    int     outfile;         // Output file FD
+    int     here_doc;        // Flag: is it here_doc mode?
+    char    *limiter;        // Delimiter for here_doc
+    int     cmd_start;       // Index where commands start
+    int     cmd_count;       // Total number of commands
+    int     pipes_count;     // Number of pipes needed (cmd_count - 1)
+    int     **pipes_fd;      // Array of arrays [pipe][read/write]
+    char    **envp;          // Environment variables
+    pid_t   *pids;           // Array with all children PIDs
 }   t_pipex;
 ```
 
-**Diferencias clave con la versión básica:**
-- **Múltiples pipes**: `pipes_fd` es una matriz 2D para N pipes
-- **Múltiples procesos**: `pids` almacena todos los PIDs
-- **Here_doc**: Flags y limitador para entrada interactiva
-- **Escalabilidad**: Maneja cualquier número de comandos
+**Key differences with basic version:**
+- **Multiple pipes**: `pipes_fd` is a 2D matrix for N pipes
+- **Multiple processes**: `pids` stores all PIDs
+- **Here_doc**: Flags and delimiter for interactive input
+- **Scalability**: Handles any number of commands
 
 
-### 📂 Estructura de Archivos (Bonus)
+### 📂 File Structure
 
 ```
 pipex/
 ├── 📁 inc/
-│   ├── pipex.h              # Header versión básica
-│   └── pipex_bonus.h        # Header versión bonus
+│   ├── pipex.h              # Basic version header
+│   └── pipex_bonus.h        # Bonus version header
 ├── 📁 src/
-│   ├── pipex.c              # Main versión básica
-│   ├── parent.c             # Proceso padre básico
-│   ├── child.c              # Proceso hijo básico
-│   ├── path.c               # Búsqueda de comandos
-│   ├── init.c               # Inicialización básica
-│   ├── clean.c              # Limpieza básica
-│   ├── open.c               # Manejo de archivos básico
-│   ├── exit.c               # Manejo de errores básico
+│   ├── pipex.c              # Basic version main
+│   ├── parent.c             # Basic parent process
+│   ├── child.c              # Basic child process
+│   ├── path.c               # Command search
+│   ├── init.c               # Basic initialization
+│   ├── clean.c              # Basic cleanup
+│   ├── open.c               # Basic file handling
+│   ├── exit.c               # Basic error handling
 │   └── 📁 bonus/
-│       ├── pipex_bonus.c         # Main versión bonus
-│       ├── parent_bonus.c        # Manejo múltiples procesos
-│       ├── child_bonus.c         # Setup avanzado de pipes
-│       ├── here_doc_bonus.c      # Funcionalidad here_doc
-│       ├── init_bonus.c          # Inicialización múltiples pipes
-│       ├── clean_bonus.c         # Limpieza múltiples recursos
-│       ├── open_bonus.c          # Manejo archivos con append
-│       ├── path_bonus.c          # Búsqueda de comandos bonus
-│       └── exit_bonus.c          # Manejo errores avanzado
+│       ├── pipex_bonus.c         # Bonus version main
+│       ├── parent_bonus.c        # Multiple processes handling
+│       ├── child_bonus.c         # Advanced pipes setup
+│       ├── here_doc_bonus.c      # Here_doc functionality
+│       ├── init_bonus.c          # Multiple pipes initialization
+│       ├── clean_bonus.c         # Multiple resources cleanup
+│       ├── open_bonus.c          # File handling with append
+│       ├── path_bonus.c          # Bonus command search
+│       └── exit_bonus.c          # Advanced error handling
 ├── 📁 lib/
-│   └── libft_plus.a         # Biblioteca personal extendida
-├── infile                   # Archivo de entrada de ejemplo
-├── outfile                  # Archivo de salida generado
-└── Makefile                 # Sistema de compilación
+│   └── libft_plus.a         # Extended personal library
+├── infile                   # Example input file
+├── outfile                  # Generated output file
+└── Makefile                 # Build system
 ```
 
-## 🚀 Instalación y Compilación
+## 🚀 Installation and Compilation
 
 ```bash
-# Clonar el repositorio
+# Clone the repository
 git clone git@github.com:LordMikkel/Pipex.git
 cd pipex
 
-# Compilar versión básica
+# Compile basic version
 make
 ./pipex infile "grep root" "wc -l" outfile
 
-# Compilar versión bonus
+# Compile bonus version
 make bonus
 ./pipex_bonus infile "cat" "grep user" "sort" "uniq" outfile
 
 ```
 
-## 🎮 Uso
+## 🎮 Usage
 
-### 🔰 Versión Básica (2 comandos)
+### 🔰 Basic Version (2 commands)
 
 ```bash
 ./pipex infile "cmd1" "cmd2" outfile
 ```
 
-### 🌟 Versión Bonus (N comandos)
+### 🌟 Bonus Version (N commands)
 
 ```bash
-# Múltiples pipes
+# Multiple pipes
 ./pipex_bonus infile "cmd1" "cmd2" "cmd3" "cmd4" outfile
 
 # Here_doc mode
 ./pipex_bonus here_doc LIMITER "cmd1" "cmd2" outfile
 ```
 
-### 📋 Ejemplos Prácticos
+### 📋 Practical Examples
 
-**Con archivos del sistema:**
+**With system files:**
 ```bash
-# Buscar usuarios en el sistema
+# Search users in the system
 ./pipex_bonus /etc/passwd "cut -d: -f1" "sort" "head -5" outfile
 
-# Contar procesos del sistema
+# Count system processes
 ./pipex_bonus /proc/cpuinfo "grep processor" "wc -l" outfile
 
-# Analizar memoria
+# Analyze memory
 ./pipex_bonus /proc/meminfo "head -3" "grep -v Mem" outfile
 ```
 
-**Con archivos del repositorio:**
+**With repository files:**
 ```bash
-# Buscar y contar
+# Search and count
 ./pipex_bonus infile "grep hello" "wc -l" outfile
 
-# Cadena de múltiples comandos
+# Chain of multiple commands
 ./pipex_bonus infile "cat" "sort" "uniq" "wc -l" outfile
 
-# Usar here_doc
+# Use here_doc
 ./pipex_bonus here_doc EOF "grep hello" "wc -w" outfile
 hello world from pipex
 hello there
 EOF
 ```
 
-**Equivalencias con bash:**
+**Bash equivalences:**
 ```bash
-# Nuestro comando:
+# Our command:
 ./pipex_bonus /etc/passwd "head -10" "tail -5" "cut -d: -f1" outfile
 
-# Equivale en bash a:
+# Equivalent in bash:
 < /etc/passwd head -10 | tail -5 | cut -d: -f1 > outfile
 ```
 
-## ⚠️ Manejo de Errores
+## ⚠️ Error Handling
 
-### 📋 Tipos de Errores Manejados
+### 📋 Types of Handled Errors
 
-El programa maneja múltiples tipos de errores de forma robusta:
+The program handles multiple types of errors robustly:
 
-- **❌ Argumentos inválidos**: Número incorrecto de parámetros o formato erróneo
-- **📁 Archivos**: No existen, sin permisos de lectura/escritura, directorios en lugar de archivos
-- **🔧 Comandos**: No encontrados en PATH, sin permisos de ejecución, comandos vacíos
-- **🔗 Pipes**: Fallo al crear pipes (límites del sistema alcanzados)
-- **🍴 Fork**: Fallo al crear procesos (límites del sistema, memoria insuficiente)
-- **💾 Memoria**: Fallo en malloc, recursos insuficientes del sistema
-- **⚡ Execve**: Fallo al ejecutar comandos, archivos corruptos
+- **❌ Invalid arguments**: Incorrect number of parameters or wrong format
+- **📁 Files**: Don't exist, no read/write permissions, directories instead of files
+- **🔧 Commands**: Not found in PATH, no execution permissions, empty commands
+- **🔗 Pipes**: Failed to create pipes (system limits reached)
+- **🍴 Fork**: Failed to create processes (system limits, insufficient memory)
+- **💾 Memory**: malloc failure, insufficient system resources
+- **⚡ Execve**: Failed to execute commands, corrupted files
 
-### 🛡️ Estrategia de Recuperación
+### 🛡️ Recovery Strategy
 
-El programa está diseñado para **continuar funcionando** incluso cuando algunos componentes fallan:
+The program is designed to **keep working** even when some components fail:
 
-- **Archivo de entrada inexistente**: Primer comando recibe entrada vacía
-- **Comando no encontrado**: Se reporta error pero se continúa con el siguiente
-- **Archivo de salida sin permisos**: Se reporta error pero no se detiene el pipeline
-- **Comando intermedio falla**: El pipeline continúa, la salida se pasa al siguiente comando
+- **Non-existent input file**: First command receives empty input
+- **Command not found**: Error is reported but continues with next command
+- **Output file without permissions**: Error is reported but pipeline doesn't stop
+- **Intermediate command fails**: Pipeline continues, output is passed to next command
 
-Esta robustez simula el comportamiento real de la shell de bash en Unix/Linux.
+This robustness simulates the real behavior of bash shell in Unix/Linux.
 
-### 🎯 Aplicaciones Reales
+### 🎯 Real Applications
 
-Este conocimiento es fundamental para:
-- 🌐 **Desarrollo de servidores**: Manejo de múltiples conexiones
-- 🔧 **DevOps**: Scripts y automatización
-- 🏗️ **Sistemas distribuidos**: Comunicación entre servicios
-- 🛡️ **Seguridad**: Entender como funcionan los procesos
+This knowledge is fundamental for:
+- 🌐 **Server development**: Multiple connections handling
+- 🔧 **DevOps**: Scripts and automation
+- 🏗️ **Distributed systems**: Inter-service communication
+- 🛡️ **Security**: Understanding how processes work
 
 ---
 
-## 📞 Contacto
+## ✍️ Credit
+
+I am Mikel Garrido a student from 42 Barcelona, i always try to make the simpliest but strongest implementation in all my projects, hopufully i could help you with this guide.
 
 [![42](https://img.shields.io/badge/-migarrid-000000?style=flat&logo=42&logoColor=white)](https://profile.intra.42.fr/users/migarrid)
