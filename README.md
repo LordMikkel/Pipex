@@ -9,10 +9,9 @@
 
 - [¿Qué es Pipex?](#-qué-es-pipex)
 - [Conceptos Fundamentales](#-conceptos-fundamentales)
+- [Implementación Técnica](#-implementación-técnica)
 - [Arquitectura del Proyecto](#-arquitectura-del-proyecto)
 - [Instalación y Compilación](#-instalación-y-compilación)
-- [Uso](#-uso)
-- [Implementación Técnica](#-implementación-técnica)
 - [Manejo de Errores](#-manejo-de-errores)
 
 ## 🎯 ¿Qué es Pipex?
@@ -48,6 +47,18 @@ grep "hello" << EOF | wc -l >> outfile
 ./pipex_bonus here_doc EOF "grep hello" "wc -l" outfile
 ```
 
+## 📚 Conceptos Fundamentales
+
+### 🌊 ¿Qué son los Pipes?
+
+Los **pipes** son un mecanismo de comunicación entre procesos que permite que la salida de un programa sea la entrada de otro. En nuestro proyecto bonus, podemos crear cadenas de múltiples pipes:
+
+```
+┌─────────┐    ┌──────┐    ┌──────┐    ┌──────┐    ┌─────────┐
+│ infile  │───▶│ cmd1 │───▶│ cmd2 │───▶│ cmd3 │───▶│ outfile │
+└─────────┘    └──────┘    └──────┘    └──────┘    └─────────┘
+```
+
 ### 🌟 Características
 
 - **🔗 Múltiples pipes**: Conecta N comandos en cadena
@@ -62,18 +73,6 @@ Este proyecto te enseña conceptos fundamentales de **programación de sistemas*
 - 🔗 **IPC (Inter-Process Communication)**: Comunicación entre procesos usando pipes
 - 📂 **File descriptors**: Manipulación y redirección de entrada/salida con `dup2()`
 - 🎮 **Ejecución de programas**: Reemplazo de procesos con `execve()`
-
-## 📚 Conceptos Fundamentales
-
-### 🌊 ¿Qué son los Pipes?
-
-Los **pipes** son un mecanismo de comunicación entre procesos que permite que la salida de un programa sea la entrada de otro. En nuestro proyecto bonus, podemos crear cadenas de múltiples pipes:
-
-```
-┌─────────┐    ┌──────┐    ┌──────┐    ┌──────┐    ┌─────────┐
-│ infile  │───▶│ cmd1 │───▶│ cmd2 │───▶│ cmd3 │───▶│ outfile │
-└─────────┘    └──────┘    └──────┘    └──────┘    └─────────┘
-```
 
 ## 🔬 Implementación Técnica
 
@@ -160,46 +159,6 @@ if (i == última_posición) {
 }
 ```
 
-### 📝 Implementación Here_doc
-
-El here_doc crea un **pipe temporal** para simular la entrada:
-
-```
-Usuario escribe → Pipe temporal → Primer comando
-    ↓
-heredoc> línea 1
-heredoc> línea 2
-heredoc> EOF
-```
-
-**Proceso:**
-1. Crear pipe temporal
-2. Leer líneas del usuario hasta encontrar el limitador
-3. Escribir cada línea al pipe
-4. Cerrar escritura del pipe
-5. Usar la lectura del pipe como `infile`
-
-### 🔄 Redirección Visual Detallada
-
-**Ejemplo con 3 comandos:**
-
-```
-ANTES de dup2():
-┌─────────────────────────────────────────────────────────────────┐
-│ Proceso Padre                                                   │
-│ ┌─────────┐  ┌──────────────┐  ┌──────────────┐                │
-│ │ infile  │  │   pipe[0]    │  │   pipe[1]    │                │
-│ │   FD    │  │ [0]    [1]   │  │ [0]    [1]   │                │
-│ └─────────┘  └──────────────┘  └──────────────┘                │
-└─────────────────────────────────────────────────────────────────┘
-
-DESPUÉS de fork() y dup2():
-┌─────────────┐       ┌─────────────┐       ┌─────────────┐
-│ Hijo 1      │       │ Hijo 2      │       │ Hijo 3      │
-│ STDIN  ───▶ infile  │ STDIN  ───▶ pipe[0][0] │ STDIN  ───▶ pipe[1][0] │
-│ STDOUT ───▶ pipe[0][1] │ STDOUT ───▶ pipe[1][1] │ STDOUT ───▶ outfile │
-└─────────────┘       └─────────────┘       └─────────────┘
-```
 
 ### ⏳ Sincronización con waitpid()
 
@@ -221,26 +180,24 @@ for (int i = 0; i < cmd_count; i++) {
 - `waitpid()`: Espera a un hijo específico (más control)
 
 
-### 📝 Here_doc: Entrada Interactiva
+### 📝 Implementación Here_doc
 
-El **here_doc** simula el comportamiento de `<<` en bash:
+El here_doc crea un **pipe temporal** para simular la entrada:
 
-```bash
-# En bash:
-cat << EOF
-línea 1
-línea 2
-EOF
-
-# En nuestro programa:
-./pipex_bonus here_doc EOF "cat" "wc -l" outfile
+```
+Usuario escribe → Pipe temporal → Primer comando
+    ↓
+heredoc> línea 1
+heredoc> línea 2
+heredoc> EOF
 ```
 
-**Funcionamiento:**
-1. Crea un pipe temporal
-2. Lee líneas del usuario hasta encontrar el limitador
-3. Escribe las líneas al pipe
-4. Usa el pipe como entrada para el primer comando
+**Proceso:**
+1. Crear pipe temporal
+2. Leer líneas del usuario hasta encontrar el limitador
+3. Escribir cada línea al pipe
+4. Cerrar escritura del pipe
+5. Usar la lectura del pipe como `infile`
 
 ## 🏗️ Arquitectura del Proyecto
 
