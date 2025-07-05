@@ -11,9 +11,9 @@
 - [¿Qué es Pipex?](#-qué-es-pipex)
 - [Conceptos Fundamentales](#-conceptos-fundamentales)
 - [Implementación Técnica](#-implementación-técnica)
-- [Arquitectura del Proyecto](#-arquitectura-del-proyecto)
+- [Arquitectura del Proyecto](https://github.com/LordMikkel/Pipex/blob/main/README.md#%EF%B8%8F-arquitectura-del-proyecto)
 - [Instalación y Compilación](#-instalación-y-compilación)
-- [Manejo de Errores](#-manejo-de-errores)
+- [Manejo de Errores](https://github.com/LordMikkel/Pipex/blob/main/README.md#%EF%B8%8F-manejo-de-errores)
 
 ## 🎯 ¿Qué es Pipex?
 
