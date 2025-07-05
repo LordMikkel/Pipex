@@ -297,6 +297,8 @@ make bonus
 
 ```
 
+![alt text](image/output.gif)
+
 ## 🎮 Usage
 
 ### 🔰 Basic Version (2 commands)
