@@ -2,7 +2,6 @@
 
 [![42 School](https://img.shields.io/badge/42-School-000000?style=flat&logo=42&logoColor=white)](https://42.fr/)
 [![Language](https://img.shields.io/badge/Language-C-blue.svg)](https://en.wikipedia.org/wiki/C_(programming_language))
-[![Norminette](https://img.shields.io/badge/Norminette-passing-success)](https://github.com/42School/norminette)
 
 > Un proyecto de 42 que replica el comportamiento de los pipes (tuberías) de Unix/Linux, permitiendo conectar comandos entre sí de manera similar a como funciona el shell.
 
@@ -13,9 +12,9 @@
 - [¿Qué es Pipex?](#-qué-es-pipex)
 - [Conceptos Fundamentales](#-conceptos-fundamentales)
 - [Implementación Técnica](#-implementación-técnica)
-- [Arquitectura del Proyecto](#-arquitectura-del-proyecto)
+- [Arquitectura del Proyecto](#%EF%B8%8F-arquitectura-del-proyecto)
 - [Instalación y Compilación](#-instalación-y-compilación)
-- [Manejo de Errores](https://github.com/LordMikkel/Pipex/blob/main/README.md#%EF%B8%8F-manejo-de-errores)
+- [Manejo de Errores](#%EF%B8%8F-manejo-de-errores)
 
 ## 🎯 ¿Qué es Pipex?
 
@@ -52,7 +51,7 @@ grep "hello" << EOF | wc -l >> outfile
 
 ## 📚 Conceptos Fundamentales
 
-### 🌊 ¿Qué son los Pipes?
+### 🪈 ¿Qué son los Pipes?
 
 Los **pipes** son un mecanismo de comunicación entre procesos que permite que la salida de un programa sea la entrada de otro. En nuestro proyecto bonus, podemos crear cadenas de múltiples pipes:
 
@@ -189,7 +188,7 @@ El padre debe esperar a **todos** los hijos para evitar procesos zombie:
 while (i < childs)
 {
     waitpid(pids[i], &status, 0);       // Esperar a este hijo específico
-    if (i == cmd_count - 1) // Solo nos importa el estado del último comando
+    if (i == cmd_count - 1) 			// Solo nos importa el estado del último comando
 	{
         if (WIFEXITED(status))
 		status = WEXITSTATUS(status);
