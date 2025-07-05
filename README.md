@@ -4,6 +4,8 @@
 [![Language](https://img.shields.io/badge/Language-C-blue.svg)](https://en.wikipedia.org/wiki/C_(programming_language))
 [![Norminette](https://img.shields.io/badge/Norminette-passing-success)](https://github.com/42School/norminette)
 
+<p align="center"> <img src="image/.score.png" alt="alt text" /> </p>
+
 > Un proyecto de 42 que replica el comportamiento de los pipes (tuberías) de Unix/Linux, permitiendo conectar comandos entre sí de manera similar a como funciona el shell.
 
 ## 📋 Índice
@@ -11,7 +13,7 @@
 - [¿Qué es Pipex?](#-qué-es-pipex)
 - [Conceptos Fundamentales](#-conceptos-fundamentales)
 - [Implementación Técnica](#-implementación-técnica)
-- [Arquitectura del Proyecto](https://github.com/LordMikkel/Pipex/blob/main/README.md#%EF%B8%8F-arquitectura-del-proyecto)
+- [Arquitectura del Proyecto](#-arquitectura-del-proyecto)
 - [Instalación y Compilación](#-instalación-y-compilación)
 - [Manejo de Errores](https://github.com/LordMikkel/Pipex/blob/main/README.md#%EF%B8%8F-manejo-de-errores)
 
